@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE beans [
+
+        <!ELEMENT bean ANY>      <!--bean ANY定义bean的类型-->
+        <!ELEMENT beans (bean*)>
+        <!ELEMENT property (#PCDATA)>
+
+        <!ATTLIST bean id ID #REQUIRED>
+        <!ATTLIST bean class CDATA #IMPLIED>
+        <!ATTLIST property name CDATA #IMPLIED>
+        <!ATTLIST property ref IDREF #IMPLIED>
+
+        ]>
+<beans>
+    <!--controller-->
+    <bean id="page" class="com.twj.myssm.myspringmvc.PageController"></bean>
+    <bean id="user" class="com.twj.book.controller.UserController">
+        <property name="userService" ref="userService"></property>
+        <property name="cartItemService" ref="cartItemService"></property>
+    </bean>
+    <bean id="book" class="com.twj.book.controller.BookController">
+        <property name="bookService" ref="bookService"></property>
+        <property name="orderItemService" ref="orderItemService"></property>
+    </bean>
+    <bean id="cart" class="com.twj.book.controller.CartController">
+        <property name="cartItemService" ref="cartItemService"></property>
+    </bean>
+    <bean id="order" class="com.twj.book.controller.OrderController">
+        <property name="orderService" ref="orderService"></property>
+        <property name="orderItemService" ref="orderItemService"></property>
+    </bean>
+
+    <!--DAO-->
+    <bean id="userDAO" class="com.twj.book.dao.impl.UserDAOImpl"></bean>
+    <bean id="bookDAO" class="com.twj.book.dao.impl.BookDAOImpl"></bean>
+    <bean id="cartItemDAO" class="com.twj.book.dao.impl.CartItemDAOImpl"></bean>
+    <bean id="orderDAO" class="com.twj.book.dao.impl.OrderDAOImpl"></bean>
+    <bean id="orderItemDAO" class="com.twj.book.dao.impl.OrderItemImpl"></bean>
+
+    <!--Service-->
+    <bean id="bookService" class="com.twj.book.service.impl.BookServiceImpl">
+        <property name="bookDAO" ref="bookDAO"></property>
+    </bean>
+    <bean id="userService" class="com.twj.book.service.impl.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"></property>
+    </bean>
+
+    <bean id="orderService" class="com.twj.book.service.impl.OrderServiceImpl">
+        <property name="orderDAO" ref="orderDAO"></property>
+        <property name="orderItemDAO" ref="orderItemDAO"></property>
+        <property name="cartItemDAO" ref="cartItemDAO"></property>
+        <property name="bookService" ref="bookService"></property>
+    </bean>
+    <bean id="orderItemService" class="com.twj.book.service.impl.OrderItemServiceImpl">
+        <property name="orderItemDAO" ref="orderItemDAO"></property>
+    </bean>
+    <bean id="cartItemService" class="com.twj.book.service.impl.CartItemServiceImpl">
+        <property name="cartItemDAO" ref="cartItemDAO"></property>
+        <property name="bookService" ref="bookService"></property>
+    </bean>
+
+
+</beans>
